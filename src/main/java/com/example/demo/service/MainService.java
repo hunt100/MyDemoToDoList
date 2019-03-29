@@ -66,4 +66,9 @@ public class MainService {
         return (List<MyUser>) myUserRepository.findAll();
     }
 
+    @Transactional
+    public MyUser getCurrentUser(String login) {
+        return myUserRepository.findByUserLogin(login).orElse(null);
+    }
+
 }

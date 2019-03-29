@@ -50,7 +50,7 @@ public class MainController {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             Date date = formatter.parse(taskDate+ " " + taskTime);
             System.err.println(date);
-            MyUser currentUser = myUserRepository.findByUserLogin(authentication.getName()).orElse(null);
+            MyUser currentUser = mainService.getCurrentUser(authentication.getName());
             Task task = new Task(0L, taskName, taskDescription, 0, date, currentUser);
             mainService.createTask(task);
         } catch (Exception e) {
@@ -60,14 +60,34 @@ public class MainController {
     }
 
     @RequestMapping(value = "/task/{taskId}", method=RequestMethod.GET)
-    public String getTaskByIdPage(@PathVariable String taskId, Model model) {
+    public String getTaskByIdPage(@PathVariable String taskId, Model model, Authentication authentication) {
+        MyUser currentUser = mainService.getCurrentUser(authentication.getName());
+        List<Task> tasks = mainService.getTasksByUser(currentUser);
+        boolean isUserTask = false;
+
         Task task = mainService.getTaskById(Long.parseLong(taskId));
+
         if (task == null) {
             System.err.println("not found");
             String errorMsg = "Sorry, this task not found";
             model.addAttribute("errorMsg",errorMsg);
             return "task";
         }
+
+        for (Task t : tasks) {
+            if (task.getId() == t.getId()) {
+                isUserTask = true;
+                break;
+            }
+        }
+
+        if(!isUserTask) {
+            System.err.println("not this user task");
+            String errorMsg = "Nice try, this is not your task";
+            model.addAttribute("errorMsg",errorMsg);
+            return "task";
+        }
+
         System.err.println(task.getId() + " " + task.getTaskName());
         model.addAttribute("thisTask", task);
         return "task";
@@ -134,7 +154,7 @@ public class MainController {
 
     @GetMapping(path = "/showNew")
     public String getNewShowModel(Model model, Authentication authentication) {
-        MyUser myUser = myUserRepository.findByUserLogin(authentication.getName()).orElse(null);
+        MyUser myUser = mainService.getCurrentUser(authentication.getName());
         List<Task> allTasks = mainService.getTasksByUser(myUser);
         Collections.sort(allTasks, new SortDateTasks());
         Map<Date,List<Task>> byDateTasks = allTasks
