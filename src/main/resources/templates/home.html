@@ -6,20 +6,42 @@
 
 </head>
 <body>
-
+<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+    <div class="container">
+        <a class="navbar-brand">My TODO</a>
+        <ul class="navbar-nav float-right">
+            <li class="nav-item">
+                <a class="nav-link active" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <div class="container">
     <div class="row">
         <div class="col-sm-6 container">
-            <h3>Sample Main page (test users)</h3>
-            <div th:each="user : ${allUsers}">
-                <h6 th:utext="'User Login: ' + ${user.getUserLogin()}"></h6>
-                <h6 th:utext="'User Password: ' + ${user.getUserPassword()}"></h6>
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h3 class="text-light">Sample Main page (test users)</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush" th:each="user : ${allUsers}">
+                        <li class="list-group-item">
+                            <p th:utext="'User Login: ' + ${user.getUserLogin()}"></p>
+                            <p th:utext="'User Password: ' + ${user.getUserPassword()}"></p>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <a href="/login">Spring Security: Login </a>
         </div>
     </div>
-
 </div>
-
+<footer class="footer fixed-bottom bg-light p-2">
+    <div class="container-fluid">
+        <p class="text-muted text-center">Footer content ©2019</p>
+    </div>
+</footer>
 </body>
 </html>
