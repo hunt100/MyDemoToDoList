@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf + Spring Security</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 container">
+            <h3>Sample Main page (test users)</h3>
+            <div th:each="user : ${allUsers}">
+                <h6 th:utext="'User Login: ' + ${user.getUserLogin()}"></h6>
+                <h6 th:utext="'User Password: ' + ${user.getUserPassword()}"></h6>
+            </div>
+            <a href="/login">Spring Security: Login </a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

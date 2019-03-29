@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Home PAge</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+    <div class="container">
+        <a class="navbar-brand">My TODO</a>
+        <ul class="navbar-nav float-right">
+            <li class="nav-item">
+                <a class="nav-link active" href="/addTask">Add task</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/showNew">Show tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 container">
+                <div class="card">
+                    <div class="card-header">
+                        Add new task
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/addTask}"  method="post">
+                            <div class="form-group">
+                                <label for="taskName">Task Name:</label>
+                                <input type="text" class="form-control" th:name="taskName" placeholder="Task Name" id="taskName"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDescription">Task Description:</label>
+                                <textarea class="form-control" th:name="taskDescription" placeholder="Task Description" id="taskDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="taskDay">Task Day:</label>
+                                <input type="date" class="form-control" th:name="taskDay" id="taskDay">
+                            </div>
+                            <div class="form-group">
+                                <label for="taskTime">At:</label>
+                                <input type="time" class="form-control" th:name="taskTime" id="taskTime">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Task</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

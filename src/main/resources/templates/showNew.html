@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+    <div class="container">
+        <a class="navbar-brand">My TODO</a>
+        <ul class="navbar-nav float-right">
+            <li class="nav-item">
+                <a class="nav-link" href="/addTask">Add task</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/showNew">Show tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <h4 class="display-4" th:utext=" ${myUser.getUserId()} + ' ' + ${myUser.getUserLogin()} + '\'s tasks: '"></h4>
+    <table class="table">
+        <tbody th:each="taskDay : ${allTasks}">
+        <tr>
+            <td colspan="9" th:utext="${#dates.format(taskDay.getKey(),'dd-MM-yyyy')}" class="bg-primary text-light"></td>
+        </tr>
+        <tr th:each="task : ${taskDay.getValue()}">
+            <td th:utext="${task.getId()}"></td>
+            <td th:utext="${#dates.format(task.getDate(),'HH:mm')}"></td>
+            <td th:utext="${task.getTaskName()}"></td>
+            <td th:utext="${task.getStatus() == 0} ? 'Active' : 'Completed'" th:classappend="${task.getStatus() == 0} ? 'text-secondary' : 'text-success' ">
+            </td>
+            <td>
+                <form th:action="@{/completeTask}" method="post">
+                    <input type="hidden" th:value="${task.getId()}" name="hiddenTaskId" />
+                    <button type="submit" class="btn btn-outline-primary" th:disabled="${task.getStatus() == 1}">Mark</button>
+                </form>
+            </td>
+            <td>
+                <a th:href="@{/task/{id}(id=${task.getId()})}" class="btn btn-outline-secondary">Show more</a>
+            </td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${task.getId()})}" class="btn btn-outline-warning">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{/delete/{id}(id=${task.getId()})}" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

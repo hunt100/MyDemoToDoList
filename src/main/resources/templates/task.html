@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+    <div class="container">
+        <a class="navbar-brand">My TODO</a>
+        <ul class="navbar-nav float-right">
+            <li class="nav-item">
+                <a class="nav-link" href="/addTask">Add task</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/showNew">Show tasks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div th:if="${errorMsg}" th:utext="${errorMsg}" class="text-danger"></div>
+<div th:unless="${errorMsg}">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 container">
+            <div class="card">
+                <div class="card-header bg-primary">
+                    <h4 class="text-light" th:utext="${thisTask.getId()} + ' - ' + ${thisTask.getTaskName()}">...</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card-title text-muted" th:utext="${thisTask.getTaskName()}"></div>
+                    <h6 th:utext="'Description: ' + ${thisTask.getTaskDescription()}" class="">...</h6>
+                    <h6 th:utext="${#dates.format(thisTask.getDate(),'dd-MM-yyyy')} + ' at ' + ${#dates.format(thisTask.getDate(),'HH:mm')}">...</h6>
+                    <h6 th:if="${thisTask.getStatus() == 0}" th:utext="'Active'" class="text-secondary">...</h6>
+                    <h6 th:unless="${thisTask.getStatus() == 0}" th:utext="'Complete'" class="text-success">...</h6>
+                    <div class="row">
+                        <div class="col">
+                            <a href="/showNew" class="btn btn-outline-primary btn-block">Go Back</a>
+                        </div>
+                        <div class="col">
+                            <form th:action="@{/completeTask}" method="post">
+                                <input type="hidden" th:value="${thisTask.getId()}" name="hiddenTaskId" />
+                                <button type="submit" class="btn btn-outline-primary btn-block" th:disabled="${thisTask.getStatus() == 1}">Mark as finished</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

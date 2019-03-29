@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
+        <div class="container">
+            <a class="navbar-brand">My TODO</a>
+            <ul class="navbar-nav float-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="/addTask">Add task</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/showNew">Show tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 container">
+                <div class="card">
+                    <div class="card-header">
+                        Edit task
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/update/{taskId}(taskId=${thisTask.getId()})}"  method="post">
+                            <div class="form-group">
+                                <label for="name">Task Name:</label>
+                                <input type="text" th:value="${thisTask.getTaskName()}" id="name" placeholder="Name" class="form-control" th:name="taskName">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Task Description:</label>
+                                <textarea class="form-control" th:text="${thisTask.getTaskDescription()}" id="description" placeholder="Description"th:name="taskDescription"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Task Date:</label>
+                                <input type="date" class="form-control" th:value="${newDate}" id="date" th:name="taskDay">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Task Time:</label>
+                                <input type="time" class="form-control" th:value="${newTime}" id="time" th:name="taskTime">
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Task Status:</label>
+                                <input type="number" class="form-control" th:value="${thisTask.getStatus()}" id="status" th:name="status">
+                            </div>
+                                <input type="submit" value="Update Task" class="btn btn-outline-primary btn-block">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
